@@ -1,0 +1,121 @@
+======================================================================
+Continuous-Time Decision Intelligence System
+Optimizing Customer Support Conversations
+======================================================================
+
+Training on historical conversation data...
+Loading data from twcs.csv...
+Loaded 100000 tweets
+Building conversations...
+Found 13249 conversations
+Extracted 2000 trajectories
+Training dynamics model...
+  Processing trajectory 0/2000
+  Processing trajectory 500/2000
+  Processing trajectory 1000/2000
+  Processing trajectory 1500/2000
+Training complete. Model confidence: 0.903
+Model trained with confidence: 0.903
+
+======================================================================
+DEMO: Analyzing Customer Support Conversation
+======================================================================
+
+[Customer Turn 1]
+  Text: @sprintcare I have sent several private messages and no one is responding as usual
+  State:
+    - Sentiment: -0.67
+    - Urgency: 0.10
+    - Frustrated: 1.00
+    - Intent: ('intent_billing_issue', np.float64(0.0))
+
+[Customer Turn 2]
+  Text: @sprintcare I did.
+  State:
+    - Sentiment: 0.00
+    - Urgency: 0.10
+    - Frustrated: 0.00
+    - Intent: ('intent_billing_issue', np.float64(0.0))
+
+[Customer Turn 3]
+  Text: @sprintcare and how do you propose we do that
+  State:
+    - Sentiment: 0.00
+    - Urgency: 1.00
+    - Frustrated: 0.00
+    - Intent: ('intent_general_inquiry', np.float64(0.2857142857142857))
+
+----------------------------------------------------------------------
+OPTIMAL ACTION SELECTION
+----------------------------------------------------------------------
+
+Optimal Next Action: acknowledge
+  Expected Cost: -0.346
+  Model Confidence: 0.903
+
+Alternative Actions Ranked by Outcome:
+  1. acknowledge
+     Expected Cost: -0.346
+     Reasoning: resolution likelihood: 0.30
+  2. redirect
+     Expected Cost: -0.324
+     Reasoning: resolution likelihood: 0.20
+  3. ask_question
+     Expected Cost: -0.313
+     Reasoning: resolution likelihood: 0.40
+  4. request_dm
+     Expected Cost: -0.307
+     Reasoning: resolution likelihood: 0.40
+  5. closing
+     Expected Cost: -0.304
+     Reasoning: resolution likelihood: 0.30
+
+----------------------------------------------------------------------
+TRAJECTORY SIMULATION
+----------------------------------------------------------------------
+
+Action: empathize
+  Step 0: sentiment=0.00, resolved=0.00, frustrated=0.00
+  Step 1: sentiment=-0.02, resolved=-0.02, frustrated=0.01
+  Step 2: sentiment=-0.04, resolved=-0.03, frustrated=0.02
+  Step 3: sentiment=-0.05, resolved=-0.03, frustrated=0.04
+
+Action: apologize
+  Step 0: sentiment=0.00, resolved=0.00, frustrated=0.00
+  Step 1: sentiment=-0.00, resolved=-0.00, frustrated=0.01
+  Step 2: sentiment=0.00, resolved=-0.00, frustrated=0.01
+  Step 3: sentiment=0.01, resolved=0.00, frustrated=0.02
+
+Action: provide_info
+  Step 0: sentiment=0.00, resolved=0.00, frustrated=0.00
+  Step 1: sentiment=-0.01, resolved=-0.01, frustrated=0.01
+  Step 2: sentiment=-0.01, resolved=-0.01, frustrated=0.02
+  Step 3: sentiment=-0.01, resolved=-0.01, frustrated=0.03
+
+Action: request_dm
+  Step 0: sentiment=0.00, resolved=0.00, frustrated=0.00
+  Step 1: sentiment=0.00, resolved=0.00, frustrated=0.01
+  Step 2: sentiment=0.01, resolved=0.01, frustrated=0.02
+  Step 3: sentiment=0.02, resolved=0.03, frustrated=0.03
+
+======================================================================
+Expected Future Trajectory Summary:
+======================================================================
+
+Given the current state:
+  - Sentiment: 0.00 (negative)
+  - Urgency: 1.00 (high)
+  - Frustrated: 0.00 (yes)
+
+The optimal action 'request_dm' is selected by:
+  1. Simulating future trajectories x(t+Δt) using learned dynamics
+  2. Estimating cost: penalizing frustration, escalation, unresolved states
+  3. Rewarding: resolution, sentiment improvement, shorter interactions
+  4. Selecting action that minimizes total expected cost: argmin_a ∫ cost(x(t),a(t)) dt
+    
+
+======================================================================
+OUTPUT: Decision Intelligence Recommendation
+======================================================================
+
+Final Result: {'optimal_action': 'request_dm', 'expected_cost': np.float64(-0.3462455293458365), 'confidence': np.float64(0.9033333333333333), 'alternatives': [{'action': 'acknowledge', 'expected_cost': -0.3462455293458365}, {'action': 'redirect', 'expected_cost': -0.3241148581768437}, {'action': 'ask_question', 'expected_cost': -0.3125943618347453}, {'action': 'request_dm', 'expected_cost': -0.3065648367424001}, {'action': 'closing', 'expected_cost': -0.30406503414499686}], 'current_state': {'sentiment': np.float64(0.0), 'urgency': np.float64(1.0), 'frustrated': np.float64(0.0), 'resolved': np.float64(0.0)}}
